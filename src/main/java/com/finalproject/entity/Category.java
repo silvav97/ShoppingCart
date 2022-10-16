@@ -18,9 +18,9 @@ public class Category {
 	private Long id;
 	
 	@Column(name = "category_name", nullable=false)
-	private @NotBlank String categoryName;
+	private @NotBlank(message = "categoryName Should not be blank") String categoryName;
 
-	private @NotBlank String description;
+	private @NotBlank(message = "description Should not be blank") String description;
 
 	public Long getId() {
 		return id;

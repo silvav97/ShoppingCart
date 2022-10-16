@@ -5,8 +5,8 @@ import javax.validation.constraints.NotBlank;
 public class CategoryDTO {
 
 	private Long id;
-	private @NotBlank String categoryName;
-	private @NotBlank String description;
+	private @NotBlank(message = "categoryName Should not be blank") String categoryName;
+	private @NotBlank(message = "description Should not be blank") String description;
 
 	public Long getId() {
 		return id;

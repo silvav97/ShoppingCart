@@ -1,5 +1,7 @@
 package com.finalproject.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,37 +15,13 @@ import com.finalproject.repository.ProductRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-	
+
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private CategoryRepository categoryRepository;
 
-	
-	
-	@Override
-	public ProductDTO createProduct(ProductDTO productDTO) {
-		
-		
-		Category optionalCategory = categoryRepository.findById(productDTO.getCategoryId())
-				.orElseThrow(() -> new ResourceNotFoundException("Category","id",productDTO.getCategoryId()));
-		
-		//if(optionalCategory.getCategoryName().equals(category.getCategoryName())) { }
-		Product product = mapToEntity(productDTO);
-		product.setCategory(optionalCategory);
-		
-		//interface
-		//Product product = new Product();
-		//product.setName(productDTO.getName());
-		//product.setDescription(productDTO.getDescription());
-		//product.setPrice(productDTO.getPrice());
-		//product.setCategory(category);
-		Product newProduct = productRepository.save(product);
-		
-		return mapToDTO(newProduct);
-	}
-	
 	// Map from Entity to DTO
 	private ProductDTO mapToDTO(Product product) {
 		ProductDTO productDTO = new ProductDTO();
@@ -51,11 +29,10 @@ public class ProductServiceImpl implements ProductService {
 		productDTO.setName(product.getName());
 		productDTO.setPrice(product.getPrice());
 		productDTO.setDescription(product.getDescription());
-		productDTO.setCategoryId(product.getCategory().getId());
-		
+		productDTO.setCategoryName(product.getCategory().getCategoryName());
 		return productDTO;
 	}
-	
+
 	// Map from DTO to Entity
 	private Product mapToEntity(ProductDTO productDTO) {
 		Product product = new Product();
@@ -63,10 +40,58 @@ public class ProductServiceImpl implements ProductService {
 		product.setName(productDTO.getName());
 		product.setPrice(productDTO.getPrice());
 		product.setDescription(productDTO.getDescription());
-		//product.setCategoryId(productDTO.getCategory().getId());
-		
 		return product;
+
+	}
+
+	@Override
+	public ProductDTO createProduct(ProductDTO productDTO) {
+		Category optionalCategory = categoryRepository.findByCategoryName(productDTO.getCategoryName())
+				.orElseThrow(() -> new ResourceNotFoundException("Category", "id",
+						categoryRepository.findByCategoryName(productDTO.getCategoryName()).get().getId()));
+
+		Product product = mapToEntity(productDTO);
+		product.setCategory(optionalCategory);
+		Product newProduct = productRepository.save(product);
+		return mapToDTO(newProduct);
+	}
+
+	@Override
+	public List<ProductDTO> getAllProducts() {
+		List<Product> products = productRepository.findAll();
+		return products.stream().map(product -> mapToDTO(product)).collect(Collectors.toList());
+	}
+	
+	@Override
+	public ProductDTO getProductById(Long id) {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
 		
+		return mapToDTO(product);
+	}
+	
+	@Override
+	public ProductDTO updateProduct(ProductDTO productDTO, Long id) {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+
+		// Product product = mapToEntity(productDTO);
+		// product.setCategory(optionalCategory);
+		product.setName(productDTO.getName());
+		product.setDescription(productDTO.getDescription());
+		product.setPrice(productDTO.getPrice());
+
+		Product productUpdated = productRepository.save(product);
+		return mapToDTO(productUpdated);
+	}
+
+
+	@Override
+	public void deleteProduct(Long id) {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+		
+		productRepository.delete(product);
 	}
 
 }

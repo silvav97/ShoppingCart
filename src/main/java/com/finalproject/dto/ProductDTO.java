@@ -10,7 +10,7 @@ public class ProductDTO {
 	private @NotNull String name;
 	private @NotNull double price;
 	private @NotNull String description;
-	private @NotNull Long categoryId;
+	private @NotNull String categoryName;
 
 	public ProductDTO() {
 	}
@@ -39,12 +39,12 @@ public class ProductDTO {
 		this.description = description;
 	}
 
-	public Long getCategoryId() {
-		return categoryId;
+	public String getCategoryName() {
+		return categoryName;
 	}
 
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 	public Long getId() {

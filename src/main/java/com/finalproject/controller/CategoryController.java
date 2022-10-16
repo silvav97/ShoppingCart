@@ -2,6 +2,8 @@ package com.finalproject.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ public class CategoryController {
 	private CategoryService categoryService;
 	
 	@PostMapping
-	public ResponseEntity<CategoryDTO> saveCategory(@RequestBody CategoryDTO categoryDTO) {
+	public ResponseEntity<CategoryDTO> saveCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
 		return new ResponseEntity<>(categoryService.createCategory(categoryDTO), HttpStatus.CREATED);
 	}
 	
@@ -41,7 +43,7 @@ public class CategoryController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<CategoryDTO> updateCategory(@PathVariable(name="id") Long id, @RequestBody CategoryDTO categoryDTO) {
+	public ResponseEntity<CategoryDTO> updateCategory(@Valid @PathVariable(name="id") Long id, @RequestBody CategoryDTO categoryDTO) {
 		CategoryDTO categoryResponse = categoryService.updateCategory(categoryDTO, id);
 		return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
 	}

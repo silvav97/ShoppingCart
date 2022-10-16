@@ -10,6 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name = "product")
 public class Product {
@@ -22,7 +25,8 @@ public class Product {
 	private @NotNull double price;
 	private @NotNull String description;
 
-	@ManyToOne                       //(cascade = CascadeType.ALL)
+	@ManyToOne                //(cascade = CascadeType.REMOVE)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
