@@ -15,6 +15,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.finalproject.entity.User;
+import com.finalproject.repository.UserRepository;
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
@@ -22,6 +25,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	
 	@Autowired
 	private CustomUserDetailsService customUserDetailsService;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -47,12 +53,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 	
 	// Bearer Access Token 
-	private String getJwtFromRequest(HttpServletRequest request) {
+	public String getJwtFromRequest(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");
 		if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
 			return bearerToken.substring(7, bearerToken.length());
 		}
 		return null;
 	}
-
+	
 }

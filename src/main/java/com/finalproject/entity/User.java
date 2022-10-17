@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -31,6 +33,15 @@ public class User {
 	private String email;
 
 	private String password;
+	
+	
+	//@OneToMany(cascade = CascadeType.MERGE)
+    //@JoinColumn(name = "address_id", referencedColumnName = "id")
+	//private Set<String> address;
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "users_addresses", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "address_id", referencedColumnName = "id"))
+	private Set<Address> addresses = new HashSet<>();
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
@@ -82,6 +93,18 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+	
+	public Set<Address> getAddress() {
+		return this.addresses;
+	}
+
+	public void setAddress(Set<Address> addresses) {
+		this.addresses = addresses;
+	}
+	
+	public void addAddress(Address address) {
+		this.addresses.add(address);
 	}
 
 	public User() {

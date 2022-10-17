@@ -17,15 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.finalproject.dto.ProductDTO;
-import com.finalproject.entity.Product;
-import com.finalproject.service.ProductService;
+import com.finalproject.service.ProductServiceImpl;
 
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {
 	
 	@Autowired
-	private ProductService productService;
+	private ProductServiceImpl productService;
 	
 	@GetMapping
 	public ResponseEntity<List<ProductDTO>> getProducts() {

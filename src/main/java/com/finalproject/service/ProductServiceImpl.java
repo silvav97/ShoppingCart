@@ -94,4 +94,12 @@ public class ProductServiceImpl implements ProductService {
 		productRepository.delete(product);
 	}
 
+	@Override
+	public Product getById(Long id) {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+		
+		return product;
+	}
+	
 }

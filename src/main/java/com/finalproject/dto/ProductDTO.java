@@ -55,5 +55,16 @@ public class ProductDTO {
 		this.id = id;
 	}
 
+	public ProductDTO(Long id, @NotNull String name, @NotNull double price, @NotNull String description,
+			@NotNull String categoryName) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.description = description;
+		this.categoryName = categoryName;
+	}
+
+	
 }
 

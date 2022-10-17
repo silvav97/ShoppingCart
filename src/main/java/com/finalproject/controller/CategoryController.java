@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.finalproject.dto.CategoryDTO;
-import com.finalproject.service.CategoryService;
+import com.finalproject.service.CategoryServiceImpl;
 
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
 	
 	@Autowired
-	private CategoryService categoryService;
+	private CategoryServiceImpl categoryService;
 	
 	@GetMapping
 	public ResponseEntity<List<CategoryDTO>> listCategories() {

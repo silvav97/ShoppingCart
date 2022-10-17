@@ -23,6 +23,7 @@ import com.finalproject.repository.RoleRepository;
 import com.finalproject.repository.UserRepository;
 import com.finalproject.security.JwtAuthResponseDTO;
 import com.finalproject.security.JwtTokenProvider;
+import com.finalproject.service.AddressServiceImpl;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -42,6 +43,9 @@ public class AuthController {
 	
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
+	
+	@Autowired
+	private AddressServiceImpl addressService;
 	
 	@PostMapping("/login")
 	public ResponseEntity<JwtAuthResponseDTO> authenticateUser(@RequestBody LoginDTO loginDTO) {
@@ -67,9 +71,10 @@ public class AuthController {
 		user.setName(signupDTO.getName());
 		user.setUsername(signupDTO.getUsername());
 		user.setEmail(signupDTO.getEmail());
+		user.addAddress(addressService.saveAddress(signupDTO.getAddress()));
 		user.setPassword(passwordEncoder.encode(signupDTO.getPassword()));
 		
-		Role role = roleRepository.findByName("ROLE_ADMIN").get();
+		Role role = roleRepository.findByName("ROLE_USER").get();
 		user.setRoles(Collections.singleton(role));
 		
 		userRepository.save(user);
