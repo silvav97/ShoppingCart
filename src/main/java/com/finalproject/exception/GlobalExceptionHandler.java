@@ -29,6 +29,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(AddressDoesNotBelongToUserException.class)
+	public ResponseEntity<ErrorDetails> handleAddressDoesNotBelongToUserException(AddressDoesNotBelongToUserException exception, WebRequest webRequest) {
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), webRequest.getDescription(false));
+		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(UserDoesNotHaveAShoppingCartException.class)
+	public ResponseEntity<ErrorDetails> handleUserDoesNotHaveAShoppingCartException(UserDoesNotHaveAShoppingCartException exception, WebRequest webRequest) {
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), webRequest.getDescription(false));
+		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+	}
+	
 	
 	@ExceptionHandler(ShoppingCartException.class)
 	public ResponseEntity<ErrorDetails> handleShoppingCartException(ShoppingCartException exception, WebRequest webRequest) {

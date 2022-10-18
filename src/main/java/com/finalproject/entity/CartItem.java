@@ -29,7 +29,7 @@ public class CartItem {
 	
 	private Integer quantity;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "shoppingcart_id", nullable = false)
 	private ShoppingCart shoppingCart;
 	
@@ -77,6 +77,11 @@ public class CartItem {
 
 	public void setShoppingCart(ShoppingCart shoppingCart) {
 		this.shoppingCart = shoppingCart;
+	}
+
+	@Override
+	public String toString() {
+		return "CartItem [product=" + product + ", quantity=" + quantity + ", shoppingCart=" + shoppingCart + "]";
 	}
 
 	

@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 		user.setUsername(signupDTO.getUsername());
 		user.setEmail(signupDTO.getEmail());
 		Address address = addressService.saveAddress(signupDTO.getAddress());
-		user.setDefaultAddress(address.getUserAddres());
+		user.setCurrentAddress(address.getUserAddres());
 		user.addAddress(address);
 		user.setPaymentMethod(paymentMethodService.getDefaultPaymentMethod());
 		user.setPassword(passwordEncoder.encode(signupDTO.getPassword()));

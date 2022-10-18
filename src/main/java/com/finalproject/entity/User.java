@@ -13,8 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -31,7 +29,7 @@ public class User {
 	private String username;
 	private String email;
 	private String password;
-	private String defaultAddress;
+	private String currentAddress;
 	
 	
 	//private String defaultPaymentMethod;
@@ -118,12 +116,12 @@ public class User {
 		this.addresses = addresses;
 	}
 
-	public String getDefaultAddress() {
-		return defaultAddress;
+	public String getCurrentAddress() {
+		return currentAddress;
 	}
 
-	public void setDefaultAddress(String defaultAddress) {
-		this.defaultAddress = defaultAddress;
+	public void setCurrentAddress(String currentAddress) {
+		this.currentAddress = currentAddress;
 	}
 	
 	public PaymentMethod getPaymentMethod() {

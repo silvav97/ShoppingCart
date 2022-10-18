@@ -84,6 +84,11 @@ public class ShoppingCart {
 		this.cartItems.add(cartItem);
 		return cartItem;
 	}
+
+	@Override
+	public String toString() {
+		return "ShoppingCart [cartItems=" + cartItems.toString() + "]";
+	}
 	
 	
 	

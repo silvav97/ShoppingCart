@@ -3,9 +3,11 @@ package com.finalproject.dto.cartitem;
 import java.util.List;
 
 public class ShoppingCartListItemsDTO {
-
-	private List<CartItemDTO> cartItems;
+	
+	private String userName;
+	private String userEmail;
 	private String deliveryAddress;
+	private List<CartItemDTO> cartItems;
 	private double totalCost;
 
 	public ShoppingCartListItemsDTO() {
@@ -34,5 +36,23 @@ public class ShoppingCartListItemsDTO {
 	public void setDeliveryAddress(String deliveryAddress) {
 		this.deliveryAddress = deliveryAddress;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+	
+	
 
 }
