@@ -1,13 +1,14 @@
-package com.finalproject.dto.cart;
+package com.finalproject.dto.cartitem;
 
 import java.util.List;
 
-public class CartDTO {
+public class ShoppingCartListItemsDTO {
 
 	private List<CartItemDTO> cartItems;
+	private String deliveryAddress;
 	private double totalCost;
 
-	public CartDTO() {
+	public ShoppingCartListItemsDTO() {
 	}
 
 	public List<CartItemDTO> getCartItems() {
@@ -24,6 +25,14 @@ public class CartDTO {
 
 	public void setTotalCost(double totalCost) {
 		this.totalCost = totalCost;
+	}
+
+	public String getDeliveryAddress() {
+		return deliveryAddress;
+	}
+
+	public void setDeliveryAddress(String deliveryAddress) {
+		this.deliveryAddress = deliveryAddress;
 	}
 
 }

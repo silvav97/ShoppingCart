@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "cart")
+@Table(name = "cartitem")
 public class CartItem {
 	
 	@Id
@@ -26,13 +27,13 @@ public class CartItem {
 	@JoinColumn(name = "product_id")
 	private Product product;
 	
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
-	
 	private Integer quantity;
 	
-	private String address;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "shoppingcart_id", nullable = false)
+	private ShoppingCart shoppingCart;
+	
+	
 
 	public CartItem() {
 		super();
@@ -62,14 +63,6 @@ public class CartItem {
 		this.product = product;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -78,13 +71,15 @@ public class CartItem {
 		this.quantity = quantity;
 	}
 
-	public String getAddress() {
-		return address;
+	public ShoppingCart getShoppingCart() {
+		return shoppingCart;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setShoppingCart(ShoppingCart shoppingCart) {
+		this.shoppingCart = shoppingCart;
 	}
+
 	
+
 
 }

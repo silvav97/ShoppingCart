@@ -1,14 +1,14 @@
-package com.finalproject.dto.cart;
+package com.finalproject.dto.cartitem;
 
 import javax.validation.constraints.NotNull;
 
-public class AddToCartDTO {
+public class ShoppingCartDTO {
 
 	private Long id;
 	private @NotNull Long productId;
-	private @NotNull String deliveryAddress;
+	//private @NotNull String deliveryAddress;
 	
-	public AddToCartDTO() {
+	public ShoppingCartDTO() {
 		super();
 	}
 	public Long getId() {
@@ -24,13 +24,7 @@ public class AddToCartDTO {
 		this.productId = productId;
 	}
 	
-	public String getDeliveryAddress() {
-		return deliveryAddress;
-	}
-
-	public void setDeliveryAddress(String deliveryAddress) {
-		this.deliveryAddress = deliveryAddress;
-	}
+	
 	
 	
 	

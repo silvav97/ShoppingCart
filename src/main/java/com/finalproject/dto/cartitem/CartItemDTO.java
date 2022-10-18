@@ -1,4 +1,4 @@
-package com.finalproject.dto.cart;
+package com.finalproject.dto.cartitem;
 
 import com.finalproject.dto.ProductDTO;
 import com.finalproject.entity.CartItem;

@@ -1,6 +1,5 @@
 package com.finalproject.dto;
 
-import com.finalproject.entity.Address;
 
 public class SignupDTO {
 
@@ -9,6 +8,7 @@ public class SignupDTO {
 	private String email;
 	private String address;
 	private String password;
+	//private Long paymentMethodId;
 
 	public String getName() {
 		return name;
@@ -49,5 +49,8 @@ public class SignupDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	
+	
 
 }
