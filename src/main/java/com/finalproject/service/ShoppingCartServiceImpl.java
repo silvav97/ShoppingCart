@@ -38,17 +38,9 @@ import com.finalproject.repository.UserRepository;
 import com.finalproject.security.JwtAuthenticationFilter;
 import com.finalproject.security.JwtTokenProvider;
 
+
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-
-	@Autowired
-	private JwtAuthenticationFilter jwtAuthenticationFilter;
-
-	@Autowired
-	private JwtTokenProvider jwtTokenProvider;
-
-	@Autowired
-	private UserRepository userRepository;
 
 	@Autowired
 	private ProductServiceImpl productService;
@@ -65,9 +57,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	
 	@Autowired
 	private PaymentMethodRepository paymentMethodRepository;
+	
+	@Autowired
+	private JwtAuthenticationFilter jwtAuthenticationFilter;
 
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
+
+	@Autowired
+	private UserRepository userRepository;
+	
+	
 	// Method to get the user
-	private User getTheUserFromRequest(HttpServletRequest request) {
+	public User getTheUserFromRequest(HttpServletRequest request) {
 		User user = new User();
 		String username;
 		String token = jwtAuthenticationFilter.getJwtFromRequest(request);
@@ -81,6 +83,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		}
 		throw new ShoppingCartException(HttpStatus.INTERNAL_SERVER_ERROR, "Invalid token");
 	}
+
 
 	@Override
 	public ShoppingCart addToShoppingCart(ShoppingCartDTO shoppingCartDTO, HttpServletRequest request) {

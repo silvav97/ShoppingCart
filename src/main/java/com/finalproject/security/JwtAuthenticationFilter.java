@@ -15,8 +15,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.finalproject.entity.User;
-import com.finalproject.repository.UserRepository;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -26,8 +24,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Autowired
 	private CustomUserDetailsService customUserDetailsService;
 	
-	@Autowired
-	private UserRepository userRepository;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
