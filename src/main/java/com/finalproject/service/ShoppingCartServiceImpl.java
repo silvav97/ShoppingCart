@@ -206,6 +206,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		Address newAddress = new Address();
 		newAddress.setUserAddres(createAddressDTO.getNewAddress());
 		user.addAddress(newAddress);
+		user.setCurrentAddress(newAddress.getUserAddres());
 		userRepository.save(user);
 	}
 

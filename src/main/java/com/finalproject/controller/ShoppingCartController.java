@@ -53,7 +53,7 @@ public class ShoppingCartController {
 	}
 	
 	
-	// Add more Addresses
+	// Add more Address and Stablish it as current address
 	@PostMapping("/address")
 	public ResponseEntity<ApiResponse> addAddress(@RequestBody CreateAddressDTO createAddressDTO, HttpServletRequest request) {
 		shoppingCartService.addAddress(createAddressDTO, request);
@@ -72,7 +72,7 @@ public class ShoppingCartController {
 	@PutMapping("/paymentmethod")
 	public ResponseEntity<ApiResponse> updatePaymentMethod(@RequestBody UpdatePaymentMethodDTO updatePaymentMethodDTO, HttpServletRequest request) {
 		shoppingCartService.updatePaymentMethod(updatePaymentMethodDTO, request);
-		return new ResponseEntity<>(new ApiResponse(true, "Current Address Updated"), HttpStatus.OK);
+		return new ResponseEntity<>(new ApiResponse(true, "Payment Method Updated"), HttpStatus.OK);
 	}
 	
 	

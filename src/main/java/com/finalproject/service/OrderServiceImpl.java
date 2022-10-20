@@ -1,7 +1,9 @@
 package com.finalproject.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -14,6 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.finalproject.dto.cartitem.CartItemDTO;
+import com.finalproject.dto.cartitem.OrderItemDTO;
+import com.finalproject.dto.cartitem.OrderResponseDTO;
 import com.finalproject.entity.CartItem;
 import com.finalproject.entity.Order;
 import com.finalproject.entity.OrderItem;
@@ -59,77 +64,71 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	// Method to get the user
-		public User getTheUserFromRequest(HttpServletRequest request) {
-			User user = new User();
-			String username;
-			String token = jwtAuthenticationFilter.getJwtFromRequest(request);
-			// Validate the token
-			if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
-				// Get the User
-				username = jwtTokenProvider.getUsernameFromJWT(token);
-				user = userRepository.findByUsernameOrEmail(username, username)
-						.orElseThrow(() -> new ResourceNotFoundException("User", "username or Email", 1L));
-				return user;
-			}
-			throw new ShoppingCartException(HttpStatus.INTERNAL_SERVER_ERROR, "Invalid token");
+	public User getTheUserFromRequest(HttpServletRequest request) {
+		User user = new User();
+		String username;
+		String token = jwtAuthenticationFilter.getJwtFromRequest(request);
+		// Validate the token
+		if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
+			// Get the User
+			username = jwtTokenProvider.getUsernameFromJWT(token);
+			user = userRepository.findByUsernameOrEmail(username, username)
+					.orElseThrow(() -> new ResourceNotFoundException("User", "username or Email", 1L));
+			return user;
 		}
+		throw new ShoppingCartException(HttpStatus.INTERNAL_SERVER_ERROR, "Invalid token");
+	}
 	
 	@PostMapping
-	public Order createOrder(HttpServletRequest request) {
+	public OrderResponseDTO createOrder(HttpServletRequest request) {
 		User user = getTheUserFromRequest(request);
-		// validate if the product id is valid
-		//Product product = productService.getById(orderDTO.getProductId());
 		
 		// check if shopping cart already exist ()
 		ShoppingCart shoppingCart = shoppingCartRepository.findByUser(user)
 				.orElseThrow(() -> new UserDoesNotHaveAShoppingCartException("Shopping Cart must exists before creating an order"));
 		
+		OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+		
 		Order newOrder = new Order();
 		orderRepository.save(newOrder);
 		Set<CartItem> cartItems = shoppingCart.getCartItems();
+		List<OrderItemDTO> cartItemsResponse = new ArrayList<>();
 
 		for(CartItem cartItem : cartItems) {
 			OrderItem orderItem = new OrderItem();
-			orderItem.setCreatedDate(cartItem.getCreatedDate());
-			orderItem.setProduct(cartItem.getProduct());
-			orderItem.setQuantity(cartItem.getQuantity());
+			OrderItemDTO orderItemDTO = new OrderItemDTO();
 			
+			orderItem.setCreatedDate(cartItem.getCreatedDate());
+			
+			
+			orderItem.setProduct(cartItem.getProduct());
+			orderItemDTO.setProductName(cartItem.getProduct().getName());
+			
+			orderItem.setQuantity(cartItem.getQuantity());
+			orderItemDTO.setQuantity(cartItem.getQuantity());
+			cartItemsResponse.add(orderItemDTO);
 			
 			orderItem.setOrder(newOrder);
-			//cartItem.setShoppingCart(shoppingCart);
+		
 			OrderItem newOrderItem = orderItemRepository.save(orderItem);
-			//CartItem newCartItem = cartRepository.save(cartItem);
 			newOrder.addItem(newOrderItem);
-			//shoppingCart.addItem(newCartItem);
-			//orderItems.add(newOrderItem);
-			
-			/*
-			ShoppingCart shoppingCart = new ShoppingCart();
-			shoppingCartRepository.save(shoppingCart);
-			CartItem cartItem = new CartItem();
-
-			cartItem.setCreatedDate(new Date());
-			cartItem.setProduct(product);
-			cartItem.setQuantity(1);
-			cartItem.setShoppingCart(shoppingCart);
-
-			shoppingCart.setAddress(user.getCurrentAddress());
-			shoppingCart.addItem(cartItem);
-			shoppingCart.setUser(user);
-			CartItem newCartItem = cartRepository.save(cartItem);
-			shoppingCart.addItem(newCartItem);
-			return shoppingCartRepository.save(shoppingCart);*/
-			
+		
 		}
 		
 		newOrder.setCreatedDate(new Date().toString());
 		newOrder.setOrderId(getOrderId());
-		//newOrder.setOrderItems(orderItems);
 		newOrder.setShippingAddress(user.getCurrentAddress());
 		newOrder.setUser(user);
+		
+		orderResponseDTO.setCartItemsResponse(cartItemsResponse);
+		orderResponseDTO.setCreatedDate(new Date().toString());
+		orderResponseDTO.setCustomer(user.getName());
+		orderResponseDTO.setOrderId(newOrder.getOrderId());
+		orderResponseDTO.setShippingAddress(user.getCurrentAddress());
+
 		orderRepository.save(newOrder);
 		shoppingCartRepository.delete(shoppingCart);
-		return newOrder;
+		return orderResponseDTO;
 	}
 
 }

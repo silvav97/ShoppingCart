@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.finalproject.common.ApiResponse;
-import com.finalproject.dto.cartitem.OrderDTO;
+import com.finalproject.dto.cartitem.OrderResponseDTO;
+//import com.finalproject.dto.cartitem.OrderDTO;
 import com.finalproject.dto.cartitem.ShoppingCartDTO;
 import com.finalproject.entity.Order;
 import com.finalproject.entity.ShoppingCart;
@@ -29,10 +30,10 @@ public class OrderController {
 	private OrderServiceImpl orderService;
 	
 	@PostMapping
-	public ResponseEntity<Order> createOrder(HttpServletRequest request) {
-		Order order = orderService.createOrder(request);
+	public ResponseEntity<OrderResponseDTO> createOrder(HttpServletRequest request) {
+		OrderResponseDTO orderResponse = orderService.createOrder(request);
 		//return new ResponseEntity<>(new ApiResponse(true, "Added to cart"), HttpStatus.CREATED);
-		return new ResponseEntity<>(order, HttpStatus.CREATED);
+		return new ResponseEntity<>(orderResponse, HttpStatus.CREATED);
 	}
 
 }
