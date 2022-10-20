@@ -23,9 +23,11 @@ import com.finalproject.security.CustomUserDetailsService;
 import com.finalproject.security.JwtAuthenticationEntryPoint;
 import com.finalproject.security.JwtAuthenticationFilter;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@SuppressWarnings("deprecation")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -38,6 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public JwtAuthenticationFilter jwtAuthenticationFilter() {
 		return new JwtAuthenticationFilter();
 	}
+	
+	//@Bean
+	//public CustomUserDetailsService customUserDetailsService() {
+	//	return new CustomUserDetailsService();
+	//}
 	
 	@Bean
 	PasswordEncoder passwordEncoder() {

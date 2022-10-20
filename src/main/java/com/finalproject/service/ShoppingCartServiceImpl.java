@@ -92,6 +92,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		Product product = productService.getById(shoppingCartDTO.getProductId());
 
 		Optional<ShoppingCart> shoppingCartOptional = shoppingCartRepository.findByUser(user);
+		
 		if (shoppingCartOptional.isPresent()) {
 			// the shopping cart already exists
 			ShoppingCart shoppingCart = shoppingCartOptional.get();
