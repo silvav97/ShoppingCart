@@ -93,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
 		orderRepository.save(newOrder);
 		Set<CartItem> cartItems = shoppingCart.getCartItems();
 		List<OrderItemDTO> cartItemsResponse = new ArrayList<>();
-
+		double totalPrice = 0;
 		for(CartItem cartItem : cartItems) {
 			OrderItem orderItem = new OrderItem();
 			OrderItemDTO orderItemDTO = new OrderItemDTO();
@@ -108,6 +108,9 @@ public class OrderServiceImpl implements OrderService {
 			orderItemDTO.setQuantity(cartItem.getQuantity());
 			cartItemsResponse.add(orderItemDTO);
 			
+			orderItemDTO.setProductPrice(cartItem.getProduct().getPrice());
+			orderItemDTO.setTotal(cartItem.getProduct().getPrice() * cartItem.getQuantity());
+			totalPrice += orderItemDTO.getTotal();
 			orderItem.setOrder(newOrder);
 		
 			OrderItem newOrderItem = orderItemRepository.save(orderItem);
@@ -123,6 +126,7 @@ public class OrderServiceImpl implements OrderService {
 		orderResponseDTO.setCartItemsResponse(cartItemsResponse);
 		orderResponseDTO.setCreatedDate(new Date().toString());
 		orderResponseDTO.setCustomer(user.getName());
+		orderResponseDTO.setTotalPrice(totalPrice);
 		orderResponseDTO.setOrderId(newOrder.getOrderId());
 		orderResponseDTO.setShippingAddress(user.getCurrentAddress());
 

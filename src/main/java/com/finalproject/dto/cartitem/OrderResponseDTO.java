@@ -9,6 +9,7 @@ public class OrderResponseDTO {
 	private String customer;
 	private String shippingAddress;
 	private List<OrderItemDTO> cartItemsResponse;
+	private double totalPrice;
 
 	public OrderResponseDTO() {
 		super();
@@ -53,5 +54,15 @@ public class OrderResponseDTO {
 	public void setCartItemsResponse(List<OrderItemDTO> cartItemsResponse) {
 		this.cartItemsResponse = cartItemsResponse;
 	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	
+	
 
 }

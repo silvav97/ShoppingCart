@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.finalproject.common.ApiResponse;
 import com.finalproject.dto.CategoryDTO;
 import com.finalproject.service.CategoryServiceImpl;
 
@@ -53,9 +54,9 @@ public class CategoryController {
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteCategory(@PathVariable(name="id") Long id) {
+	public ResponseEntity<ApiResponse> deleteCategory(@PathVariable(name="id") Long id) {
 		categoryService.deleteCategory(id);
-		return new ResponseEntity<>("Category deleted successfully", HttpStatus.OK);
+		return new ResponseEntity<>(new ApiResponse(true, "Category deleted successfully"), HttpStatus.OK);
 	}
 
 
