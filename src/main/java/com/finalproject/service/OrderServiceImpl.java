@@ -79,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
 		throw new ShoppingCartException(HttpStatus.INTERNAL_SERVER_ERROR, "Invalid token");
 	}
 	
-	@PostMapping
+	//@PostMapping
 	public OrderResponseDTO createOrder(HttpServletRequest request) {
 		User user = getTheUserFromRequest(request);
 		

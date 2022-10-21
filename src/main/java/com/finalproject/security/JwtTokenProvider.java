@@ -44,7 +44,7 @@ public class JwtTokenProvider {
 	
 	public boolean validateToken(String token) {
 		try {
-			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+			System.out.println(Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token));
 			return true;
 		} catch (SignatureException e) {
 			throw new  ShoppingCartException(HttpStatus.BAD_REQUEST, "Invalid JWT signature");
